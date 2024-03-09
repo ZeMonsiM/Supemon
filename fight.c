@@ -301,8 +301,39 @@ short startFight(supemon *enemy, supemon playerSupemons[], short *selectedSupemo
 			sleep(1);
 		} else {
 			// Tour de l'IA
-			printf("[DEBUG] AI Turn\n");
+			short attack = rand() %2;
+			if (strcmp(enemy->moves[attack].type, "dmg") == 0) {
+				printf("%s tries to use %s...\n", enemy->name, enemy->moves[attack].name);
+				sleep(3);
+
+				short successRate = (enemy->acc * 100) / (enemy->acc + playerSupemons[*selectedSupemon].eva) + 10;
+				if (successRate <= rand() %100) {
+					// Attaque
+					float damageDealt = enemy->moves[attack].value * enemy->att / playerSupemons[*selectedSupemon].def;
+					float integerPart;
+					if (modff(damageDealt, &integerPart) != 0) {
+						damageDealt = rand() %2 == 0 ? floorf(damageDealt) : ceilf(damageDealt);
+					}
+					playerSupemons[*selectedSupemon].hp -= damageDealt;
+					printf("%s used %s and deals %f damage!\n", enemy->name, enemy->moves[attack].name, damageDealt);
+				} else {
+					printf("You dodged the attack!\n");
+				}
+			} else {
+				// Stats
+				if (strcmp(enemy->moves[attack].type, "att") == 0) {
+					enemy->att += enemy->moves[attack].value;
+				}
+				if (strcmp(enemy->moves[attack].type, "eva") == 0) {
+					enemy->eva += enemy->moves[attack].value;
+				}
+				if (strcmp(enemy->moves[attack].type, "def") == 0) {
+					enemy->def += enemy->moves[attack].value;
+				}
+				printf("%s uses %s!\n", enemy->name, enemy->moves[attack].name);
+			}
 			switchPlayer(&playerTurn);
+			sleep(1);
 		}
 	}
 
