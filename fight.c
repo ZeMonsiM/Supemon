@@ -82,12 +82,22 @@ short actionMove(supemon *enemy, supemon playerSupemons[], short selectedSupemon
 
 	// Cas: CANCEL
 	if (selection == 3) {
-		return;
+		return 0;
 	}
 
 	selection--;
 	// Faire le move
 	if (strcmp(playerSupemons[selectedSupemon].moves[selection].type, "dmg") == 0) {
+		printf("%s tries to use %s...\n", playerSupemons[selectedSupemon].name, playerSupemons[selectedSupemon].moves[selection].name);
+		sleep(3);
+
+		// Bloquer l'attaque si l'ennemi dodge
+		short successRate = (playerSupemons[selectedSupemon].acc * 100) / (playerSupemons[selectedSupemon].acc + enemy->eva) + 10;
+		if (rand() % 100 >= successRate) {
+			printf("%s dodged the attack!\n", enemy->name);
+			return 1;
+		}
+
 		// Attaque
 		float damageDealt = playerSupemons[selectedSupemon].moves[selection].value * playerSupemons[selectedSupemon].att / enemy->def;
 		float integerPart;
@@ -95,7 +105,8 @@ short actionMove(supemon *enemy, supemon playerSupemons[], short selectedSupemon
 			damageDealt = rand() %2 == 0 ? floorf(damageDealt) : ceilf(damageDealt);
 		}
 		enemy->hp -= damageDealt;
-		printf("%s uses %s and deals %f damage!\n", playerSupemons[selectedSupemon].name, playerSupemons[selectedSupemon].moves[selection].name, damageDealt);
+		printf("%s used %s and deals %f damage!\n", playerSupemons[selectedSupemon].name, playerSupemons[selectedSupemon].moves[selection].name, damageDealt);
+		return 1;
 	} else {
 		// Boost de stats
 		if (strcmp(playerSupemons[selectedSupemon].moves[selection].type, "att") == 0) {
@@ -106,11 +117,12 @@ short actionMove(supemon *enemy, supemon playerSupemons[], short selectedSupemon
 			playerSupemons[selectedSupemon].def += playerSupemons[selectedSupemon].moves[selection].value;
 		}
 		printf("%s uses %s!\n", playerSupemons[selectedSupemon].name, playerSupemons[selectedSupemon].moves[selection].name);
+		return 1;
 	}
 }
 
 short actionChange(supemon playerSupemons[], short *selectedSupemon, short possessedSupemons) {
-	printf("Please select a Supemon from the list :\n");
+	printf("Please select a Supemon from the list :\n0 - CANCEL\n");
 	short selection;
 	for (short i = 0; i < possessedSupemons; i++) {
 		printf("%hd - %s (level %hd)\n", i + 1, playerSupemons[i].name, playerSupemons[i].level);
@@ -118,9 +130,15 @@ short actionChange(supemon playerSupemons[], short *selectedSupemon, short posse
 	do {
 		printf("\nChoose a Supemon: ");
 		scanf("%hd", &selection);
-	} while (selection < 1 || selection > possessedSupemons);
+	} while (selection < 0 || selection > possessedSupemons);
+
+	if (selection == 0) {
+		return 0;
+	}
 
 	*selectedSupemon = selection - 1;
+	printf("Switched to %s!\n", playerSupemons[*selectedSupemon].name);
+	return 1;
 }
 
 short actionUseItem(inventory *ptPlayerInventory, supemon supemons[], short selectedSupemon, short *ptUsedItems) {
@@ -193,7 +211,7 @@ short actionCapture(supemon supemonList[], supemon enemy, short *ptPossessedSupe
 	printf("You are trying to capture the enemy Supemon...\n");
 	sleep(3);
 	short successRate = ((enemy.maxHp - enemy.hp) * 100) / enemy.maxHp - 50;
-	if (successRate <= rand() %100) {
+	if (successRate <= rand() %100 && successRate > 0) {
 		// Supemon capturé
 		printf("You managed to capture the enemy Supemon!\n");
 		supemonList[*ptPossessedSupemons] = enemy;
@@ -206,6 +224,9 @@ short actionCapture(supemon supemonList[], supemon enemy, short *ptPossessedSupe
 }
 
 short actionRunAway(supemon selectedSupemon, supemon enemy) {
+	printf("Attempting to run away...\n");
+	sleep(3);
+
 	short successRate = (selectedSupemon.speed * 100) / (selectedSupemon.speed + enemy.speed);
 	if (successRate <= rand() %100) {
 		// Arrêter le combat
@@ -276,6 +297,8 @@ short startFight(supemon *enemy, supemon playerSupemons[], short *selectedSupemo
 				switchPlayer(&playerTurn);
 				break;
 			}
+
+			sleep(1);
 		} else {
 			// Tour de l'IA
 			printf("[DEBUG] AI Turn\n");
