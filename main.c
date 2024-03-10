@@ -7,6 +7,7 @@
 #include "mainloop.h"
 #include "shop.h"
 #include "fight.h"
+#include "center.h"
 
 /*
 	Mon psy m'a dit que c'était la merde en terme
@@ -139,7 +140,7 @@ int main() {
 	srand(time(NULL));
 	// Initialiser les variables
 	char playerName[32];
-	int balance = 3621; // Reset à zéro une fois les tests terminés
+	int balance = 0;
 	supemon supemonList[50];
 	short selectedSupemon, possessedSupemons;
 	inventory playerInventory;
@@ -183,8 +184,10 @@ int main() {
 			}
 		}
 		supemonList[0] = getStarterSupemon(selection);
+		supemonList[1] = getStarterSupemon(2);
+		supemonList[2] = getStarterSupemon(3);
 		selectedSupemon = 0;
-		possessedSupemons = 1;
+		possessedSupemons = 3;
 	}
 
 	short gameRunning = 1;
@@ -200,7 +203,7 @@ int main() {
 			break;
 
 		case 3:
-			printf("in the supemon center");
+			supemonCenterLoop(supemonList, possessedSupemons);
 			break;
 
 		case 4:
