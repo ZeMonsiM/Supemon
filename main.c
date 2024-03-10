@@ -148,45 +148,26 @@ int main() {
 	playerInventory.super_potion = 0;
 	playerInventory.rare_candy = 0;
 
-	// Ouvrir le fichier de sauvegarde si il existe
-	FILE *file = NULL;
-	file = fopen("save.txt", "r");
-
-	if (file != NULL) {
-		printf("Save file opened successfully!\nExiting program (feature not implemented)...\n");
-		return -1;
-		char str[30], prevStr[30];
-		while (1) {
-			fgets(str, 30, file);
-			if (strcmp(str, prevStr) == 0) {
-				break;
-			}
-			printf("%s", str); //deboguage
-			strcpy(prevStr, str);
-			sleep(1);
+	printf("Enter your name: ");
+	gets(playerName);
+	printf("\nHello %s!\nWelcome to Supemon World!\n\n", playerName);
+	short selection;
+	while (1) {
+		printf("+----------------------------+\n");
+		printf("|Choose your starter Supemon:|\n");
+		printf("|    1 - Supmander           |\n");
+		printf("|    2 - Supasaur            |\n");
+		printf("|    3 - Supirtle            |\n");
+		printf("+----------------------------+\n");
+		printf("\n1, 2 or 3: ");
+		scanf("%hd", &selection);
+		if (selection > 0 && selection < 4) {
+			break;
 		}
-	} else {
-		printf("No save file found!\nPlease enter your username: ");
-		gets(playerName);
-		printf("\nHello %s!\nWelcome to Supemon World!\n\n", playerName);
-		short selection;
-		while (1) {
-			printf("+----------------------------+\n");
-			printf("|Choose your starter Supemon:|\n");
-			printf("|    1 - Supmander           |\n");
-			printf("|    2 - Supasaur            |\n");
-			printf("|    3 - Supirtle            |\n");
-			printf("+----------------------------+\n");
-			printf("\n1, 2 or 3: ");
-			scanf("%hd", &selection);
-			if (selection > 0 && selection < 4) {
-				break;
-			}
-		}
-		supemonList[0] = getStarterSupemon(selection);
-		selectedSupemon = 0;
-		possessedSupemons = 1;
 	}
+	supemonList[0] = getStarterSupemon(selection);
+	selectedSupemon = 0;
+	possessedSupemons = 1;
 
 	short gameRunning = 1;
 	while (gameRunning) {
@@ -211,6 +192,5 @@ int main() {
 		}
 	}
 
-	fclose(file);
 	return 0;
 }

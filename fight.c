@@ -59,6 +59,7 @@ void endFight(short victory, int *balance, short enemyLevel, supemon *playerSupe
 		printf("\nYOU WIN!\nGained %hd Supcoins!\nGained %d Exp for %s!\n", reward, expReward, playerSupemon->name);
 	} else {
 		printf("\nBetter luck next time...\n");
+		playerSupemon->hp = playerSupemon->maxHp;
 	}
 }
 
