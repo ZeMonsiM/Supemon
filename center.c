@@ -15,6 +15,7 @@ void supemonCenterLoop(supemon supemons[], short possessedSupemons) {
 		printf("+--------------------------------------------------+\n");
 		printf("\nWhich Supemon do you want to heal (enter Supemon ID or '0' to exit): ");
 		scanf("%hd", &supemonId);
+		fflush(stdin);
 
 		if (supemonId == 0) {
 			break;

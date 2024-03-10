@@ -10,12 +10,8 @@
 #include "center.h"
 
 /*
-	Mon psy m'a dit que c'était la merde en terme
-	de santé mentale à cause du langage C, donc
-	pour éviter de faire un burn out j'ai décidé
-	de mettre un ASCII art d'un renard !
 
-	   /\   /\   U can do it
+	   /\   /\
 	  //\\_//\\     ____
 	  \_     _/    /   /
 	   / * * \    /^^^]
@@ -25,7 +21,6 @@
 		 [ [ /  \/ _/
 		_[ [ \  /_/
 
-	A ne pas prendre au sérieux (je le dis au cas ou)
 */
 
 supemon getStarterSupemon(short supemonId) {
@@ -161,6 +156,7 @@ int main() {
 		printf("+----------------------------+\n");
 		printf("\n1, 2 or 3: ");
 		scanf("%hd", &selection);
+		fflush(stdin);
 		if (selection > 0 && selection < 4) {
 			break;
 		}

@@ -31,6 +31,7 @@ short launchSelectionMenu(supemon playerSupemons[], short selectedSupemon) {
 		printf("+----------------------+\n");
 		printf("\n1, 2, 3, 4 or 5: ");
 		scanf("%hd", &selection);
+		fflush(stdin);
 
 		if (selection > 0 && selection < 6) {
 			return selection;
@@ -79,6 +80,7 @@ short actionMove(supemon *enemy, supemon playerSupemons[], short selectedSupemon
 		printf("3 - CANCEL\n");
 		printf("1, 2 or 3: ");
 		scanf("%hd", &selection);
+		fflush(stdin);
 	} while (selection < 1 || selection > 3);
 
 	// Cas: CANCEL
@@ -163,6 +165,7 @@ short actionUseItem(inventory *ptPlayerInventory, supemon supemons[], short sele
 		do {
 			printf("\nDo you want to use a potion (1), a super_potion (2) or a rare_candy (3): ");
 			scanf("%hd", &item);
+			fflush(stdin);
 		} while (item < 1 || item > 4);
 
 		switch (item) {

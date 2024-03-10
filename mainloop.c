@@ -14,6 +14,7 @@ int mainMenuLoop() {
 		printf("+-----------------------------+\n");
 		printf("\n1, 2, 3 or 4: ");
 		scanf("%hd", &selection);
+		fflush(stdin);
 
 		// Petit easter egg ni vu ni connu !
 		if (selection == 14298) {

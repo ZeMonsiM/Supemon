@@ -20,6 +20,7 @@ void shopLoop(int *balance, inventory *playerInventory) {
 		printf("You currently have %d Supcoins\n", *balance);
 		printf("Do you want to 'buy', 'sell' or 'EXIT' the shop ? ");
 		scanf("%s", &action);
+		fflush(stdin);
 
 		// Quitter vers le menu principal
 		// Ces 3 lignes de code ont trigger mon antivirus 7 fois à cause des crashes
@@ -34,6 +35,7 @@ void shopLoop(int *balance, inventory *playerInventory) {
 
 		printf("What do you want to buy/sell\nSyntax: <amount> <item>\n> ");
 		scanf("%hd %s", &amount, &item);
+		fflush(stdin);
 
 		if (amount <= 0) {
 			continue;
