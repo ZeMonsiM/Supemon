@@ -184,10 +184,8 @@ int main() {
 			}
 		}
 		supemonList[0] = getStarterSupemon(selection);
-		supemonList[1] = getStarterSupemon(2);
-		supemonList[2] = getStarterSupemon(3);
 		selectedSupemon = 0;
-		possessedSupemons = 3;
+		possessedSupemons = 1;
 	}
 
 	short gameRunning = 1;
